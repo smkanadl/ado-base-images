@@ -1,0 +1,87 @@
+name: Docker
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - base: 'ubuntu-18.04'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+          - base: 'ubuntu-20.04'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+          - base: 'ubuntu-22.04'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+          - base: 'ubuntu-24.04'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+          - base: 'debian-10'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+          - base: 'debian-11'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+          - base: 'debian-12'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+          - base: 'alpine-3.18'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+          - base: 'alpine-3.21'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 360
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        if: matrix.build == true
+        uses: actions/checkout@v3
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: matrix.build == true
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image ${{ matrix.base }}
+        if: matrix.build == true
+        run: |
+          docker build ${{ github.workspace }}/src/${{ matrix.base }}/node-${{ matrix.node }} --tag ghcr.io/smkanadl/ado-base-images:${{ matrix.base }}-node-${{ matrix.nodeFull }} --tag ghcr.io/smkanadl/ado-base-images:${{ matrix.base }}-node-${{ matrix.node }} --tag ghcr.io/smkanadl/ado-base-images:${{ matrix.base }}
+          docker push ghcr.io/smkanadl/ado-base-images:${{ matrix.base }}-node-${{ matrix.nodeFull }}
+          docker push ghcr.io/smkanadl/ado-base-images:${{ matrix.base }}-node-${{ matrix.node }}
+          docker push ghcr.io/smkanadl/ado-base-images:${{ matrix.base }}
