@@ -46,6 +46,10 @@ jobs:
             node: '20'
             nodeFull: '20.18.3'
             runner: ubuntu-24.04
+          - base: 'debian-13'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
             build: true
           - base: 'alpine-3.18'
             node: '20'
@@ -53,6 +57,11 @@ jobs:
             runner: ubuntu-24.04
             build: true
           - base: 'alpine-3.21'
+            node: '20'
+            nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: true
+          - base: 'alpine-3.22'
             node: '20'
             nodeFull: '20.18.3'
             runner: ubuntu-24.04
