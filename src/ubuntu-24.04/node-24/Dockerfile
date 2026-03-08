@@ -1,28 +1,20 @@
 # escape=`
 
-FROM debian:buster-slim
+FROM ubuntu:24.04
 
 LABEL org.opencontainers.image.source="https://github.com/smkanadl/ado-base-images"
 
 # https://learn.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops&tabs=linux#nonglibc-based-containers
 # Use official alpine node images as code ref. Cannot use as base as they have an entrypoint
-# https://github.com/nodejs/docker-node/blob/main/20/bullseye-slim/Dockerfile
+# https://github.com/nodejs/docker-node/blob/main/24/bookworm-slim/Dockerfile
 
 LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 
 # Install node
-RUN groupadd --gid 1000 node `
-  && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
+RUN groupadd --gid 1001 node `
+  && useradd --uid 1001 --gid node --shell /bin/bash --create-home node
 
-# Move to debian archives https://debiansupport.com/mirrors/
-RUN echo "deb http://archive.debian.org/debian/ buster main contrib non-free" > /etc/apt/sources.list && `
-    echo "deb http://archive.debian.org/debian/ buster-proposed-updates main contrib non-free" >> /etc/apt/sources.list && `
-    echo "deb http://archive.debian.org/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list
-
-# Tell APT to ignore expired metadata
-RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
-
-ENV NODE_VERSION=20.18.3
+ENV NODE_VERSION=24.14.0
 
 RUN ARCH= OPENSSL_ARCH= && dpkgArch="$(dpkg --print-architecture)" `
     && case "${dpkgArch##*-}" in `
@@ -83,4 +75,6 @@ RUN apt-get update && `
 	apt-get install -y `
     git `
     bash `
-    sudo
+    sudo `
+    && rm -rf /var/lib/apt/lists/*
+

@@ -1,12 +1,12 @@
 # escape=`
 
-FROM debian:buster-slim
+FROM debian:trixie-slim
 
 LABEL org.opencontainers.image.source="https://github.com/smkanadl/ado-base-images"
 
 # https://learn.microsoft.com/en-us/azure/devops/pipelines/process/container-phases?view=azure-devops&tabs=linux#nonglibc-based-containers
-# Use official alpine node images as code ref. Cannot use as base as they have an entrypoint
-# https://github.com/nodejs/docker-node/blob/main/20/bullseye-slim/Dockerfile
+# Use official debian node images as code ref. Cannot use as base as they have an entrypoint
+# https://github.com/nodejs/docker-node/blob/main/24/trixie-slim/Dockerfile
 
 LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 
@@ -14,15 +14,7 @@ LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 RUN groupadd --gid 1000 node `
   && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
-# Move to debian archives https://debiansupport.com/mirrors/
-RUN echo "deb http://archive.debian.org/debian/ buster main contrib non-free" > /etc/apt/sources.list && `
-    echo "deb http://archive.debian.org/debian/ buster-proposed-updates main contrib non-free" >> /etc/apt/sources.list && `
-    echo "deb http://archive.debian.org/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list
-
-# Tell APT to ignore expired metadata
-RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
-
-ENV NODE_VERSION=20.18.3
+ENV NODE_VERSION=24.14.0
 
 RUN ARCH= OPENSSL_ARCH= && dpkgArch="$(dpkg --print-architecture)" `
     && case "${dpkgArch##*-}" in `
@@ -42,7 +34,7 @@ RUN ARCH= OPENSSL_ARCH= && dpkgArch="$(dpkg --print-architecture)" `
     && export GNUPGHOME="$(mktemp -d)" `
     # gpg keys listed at https://github.com/nodejs/node#release-keys
     && for key in `
-      C0D6248439F1D5604AAFFB4021D900FFDB233756 `
+      5BE8A3F6C8A5C01D106C0AD820B1A390B168D356 `
       DD792F5973C6DE52C432CBDAC77ABFA00DDBF2B7 `
       CC68F5A3106FF448322E48ED27F5E38D5B0A215F `
       8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600 `

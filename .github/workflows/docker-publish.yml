@@ -16,20 +16,40 @@ jobs:
             node: '20'
             nodeFull: '20.18.3'
             runner: ubuntu-24.04
+            build: false
+          - base: 'ubuntu-18.04'
+            node: '24'
+            nodeFull: '24.14.0'
+            runner: ubuntu-24.04
             build: true
           - base: 'ubuntu-20.04'
             node: '20'
             nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: false
+          - base: 'ubuntu-20.04'
+            node: '24'
+            nodeFull: '24.14.0'
             runner: ubuntu-24.04
             build: true
           - base: 'ubuntu-22.04'
             node: '20'
             nodeFull: '20.18.3'
             runner: ubuntu-24.04
+            build: false
+          - base: 'ubuntu-22.04'
+            node: '24'
+            nodeFull: '24.14.0'
+            runner: ubuntu-24.04
             build: true
           - base: 'ubuntu-24.04'
             node: '20'
             nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: false
+          - base: 'ubuntu-24.04'
+            node: '24'
+            nodeFull: '24.14.0'
             runner: ubuntu-24.04
             build: true
           - base: 'debian-10'
@@ -37,33 +57,69 @@ jobs:
             nodeFull: '20.18.3'
             runner: ubuntu-24.04
             build: false
+          - base: 'debian-10'
+            node: '24'
+            nodeFull: '24.14.0'
+            runner: ubuntu-24.04
+            build: true
           - base: 'debian-11'
             node: '20'
             nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: false
+          - base: 'debian-11'
+            node: '24'
+            nodeFull: '24.14.0'
             runner: ubuntu-24.04
             build: true
           - base: 'debian-12'
             node: '20'
             nodeFull: '20.18.3'
             runner: ubuntu-24.04
+            build: false
+          - base: 'debian-12'
+            node: '24'
+            nodeFull: '24.14.0'
+            runner: ubuntu-24.04
+            build: true
           - base: 'debian-13'
             node: '20'
             nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: false
+          - base: 'debian-13'
+            node: '24'
+            nodeFull: '24.14.0'
             runner: ubuntu-24.04
             build: true
           - base: 'alpine-3.18'
             node: '20'
             nodeFull: '20.18.3'
             runner: ubuntu-24.04
+            build: false
+          - base: 'alpine-3.18'
+            node: '24'
+            nodeFull: '24.14.0'
+            runner: ubuntu-24.04
             build: true
           - base: 'alpine-3.21'
             node: '20'
             nodeFull: '20.18.3'
             runner: ubuntu-24.04
+            build: false
+          - base: 'alpine-3.21'
+            node: '24'
+            nodeFull: '24.14.0'
+            runner: ubuntu-24.04
             build: true
           - base: 'alpine-3.22'
             node: '20'
             nodeFull: '20.18.3'
+            runner: ubuntu-24.04
+            build: false
+          - base: 'alpine-3.22'
+            node: '24'
+            nodeFull: '24.14.0'
             runner: ubuntu-24.04
             build: true
 
